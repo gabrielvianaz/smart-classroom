@@ -1,7 +1,6 @@
 import './App.css'
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useState } from "react";
-import axios from "axios";
 import LIGHT_ON from './assets/LIGHT_ON.png'
 import LIGHT_OFF from './assets/LIGHT_OFF.png'
 import AC_ON from './assets/AC_ON.png'
@@ -12,6 +11,8 @@ import CURTAIN_OPEN from './assets/CURTAIN_OPEN.png'
 import CURTAIN_CLOSED from './assets/CURTAIN_CLOSED.png'
 import REC_ON from './assets/REC_ON.png'
 import REC_OFF from './assets/REC_OFF.png'
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 
 function App() {
@@ -64,19 +65,35 @@ function App() {
     ]);
 
     async function onStop(blobUrl) {
+        try {
+            const formData = await getAudioFormData(blobUrl)
+            const response = await axios.post('http://localhost:5000/receive_command', formData)
+            const { object, action } = response.data
+
+            handleSuccess(action, object);
+        } catch {
+            toast.error("Erro ao processar o comando. Tente novamente")
+        }
+    }
+
+    async function getAudioFormData(blobUrl) {
         const audioBlob = await (await fetch(blobUrl)).blob()
         const audio = new File([audioBlob], 'audio.wav', { type: 'audio/wav' });
         const formData = new FormData();
-
         formData.append('audio', audio);
 
-        const response = await axios.post('http://localhost:5000/receive_command', formData)
-        const data = response.data
-        const actionStatus = ['ligar', 'abrir', 'iniciar'].includes(data.action);
-        const newObjects = objects.map((object) => {
+        return formData;
+    }
+
+
+    function handleSuccess(action, object) {
+        toast.success(`Comando processado com sucesso. Atuando sobre: ${object}`);
+
+        const actionStatus = ['ligar', 'abrir', 'iniciar'].includes(action);
+        const newObjects = objects.map(item => {
             return {
-                ...object,
-                status: object.name === data.object ? actionStatus : object.status
+                ...item,
+                status: item.name === object ? actionStatus : item.status
             }
         })
 
@@ -96,6 +113,7 @@ function App() {
                         <img key={index} src={object.img[`${object.status}`]}/>
                     ))}
                 </div>
+                <ToastContainer/>
             </main>
         </>
     )
