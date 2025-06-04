@@ -1,0 +1,8 @@
+nltk
+pyaudio
+torch
+torchaudio
+transformers
+flask
+flask-cors
+flask-socketio

@@ -1,0 +1,44 @@
+{
+  "actions": [
+	{
+	  "name": "ligar",
+	  "objects": [
+		"projetor",
+		"ar condicionado",
+		"lâmpada"
+	  ]
+	},
+	{
+	  "name": "desligar",
+	  "objects": [
+		"projetor",
+		"ar condicionado",
+		"lâmpada"
+	  ]
+	},
+	{
+	  "name": "abrir",
+	  "objects": [
+		"cortina"
+	  ]
+	},
+	{
+	  "name": "fechar",
+	  "objects": [
+		"cortina"
+	  ]
+	},
+	{
+	  "name": "iniciar",
+	  "objects": [
+		"gravação"
+	  ]
+	},
+	{
+	  "name": "finalizar",
+	  "objects": [
+		"gravação"
+	  ]
+	}
+  ]
+}
