@@ -39,7 +39,7 @@ Este repositório contém a aplicação Smart Classroom, organizada em um monore
 3. **Instale as dependências:**
 
     ```bash
-    pip install -r requirements.txt
+    python -m pip install -r requirements.txt
     ```
 
 4. **Inicie o servidor Flask:**
