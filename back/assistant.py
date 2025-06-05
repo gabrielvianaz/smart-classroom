@@ -23,9 +23,7 @@ class Assistant:
     def receive_command(self, speech_path):
         squeezed_speech = self.speech_helper.squeeze_speech(speech_path)
         transcription = self.speech_helper.transcript_speech(squeezed_speech)
-        print(f"Transcription: {transcription}")
         command = self.speech_helper.remove_stop_words(transcription)
-        print(f"Command: {command}")
         valid, command_action, command_object = self.__validate_command(command, self.config["actions"])
 
         if valid:
