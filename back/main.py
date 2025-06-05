@@ -16,7 +16,7 @@ assistant = Assistant(model_name=MODEL_NAME, device=CPU)
 @service.post("/receive_command")
 def receive_command():
     if "audio" not in request.files:
-        return jsonify({"erro": "nenhum foi enviado"}), 400
+        return jsonify({"error": "Audio file is required"}), 400
 
     audio = request.files["audio"]
     temp_file_path = os.path.join(TEMP_FOLDER, f"{secrets.token_hex(32).lower()}.wav")
