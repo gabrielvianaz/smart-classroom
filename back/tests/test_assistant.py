@@ -3,7 +3,49 @@ import unittest
 from assistant import Assistant
 from constants import MODEL_NAME, CPU
 
-COMMAND_PATH = "./audios/ligar_lampada.wav"
+expected = [
+    {
+        "path": "./audios/ligar_lampada.wav",
+        "command": ("ligar", "lâmpada")
+    },
+    {
+        "path": "./audios/desligar_lampada.wav",
+        "command": ("desligar", "lâmpada")
+    },
+    {
+        "path": "./audios/ligar_ar_condicionado.wav",
+        "command": ("ligar", "ar condicionado")
+    },
+    {
+        "path": "./audios/desligar_ar_condicionado.wav",
+        "command": ("desligar", "ar condicionado")
+    },
+    {
+        "path": "./audios/ligar_projetor.wav",
+        "command": ("ligar", "projetor")
+    },
+    {
+        "path": "./audios/desligar_projetor.wav",
+        "command": ("desligar", "projetor")
+    },
+    {
+        "path": "./audios/abrir_cortina.wav",
+        "command": ("abrir", "cortina")
+    },
+    {
+        "path": "./audios/fechar_cortina.wav",
+        "command": ("fechar", "cortina")
+    },
+    {
+        "path": "./audios/iniciar_gravacao.wav",
+        "command": ("iniciar", "gravação")
+    },
+    {
+        "path": "./audios/finalizar_gravacao.wav",
+        "command": ("finalizar", "gravação")
+    }
+]
+
 
 
 class TestAssistant(unittest.TestCase):
@@ -18,11 +60,12 @@ class TestAssistant(unittest.TestCase):
     def test_assistant_initialized(self):
         self.assertTrue(self.assistant.initialized)
 
-    def test_command_execution(self):
-        response = self.assistant.receive_command(COMMAND_PATH)
+    def test_commands(self):
+        for item in expected:
+            response = self.assistant.receive_command(item["path"])
 
-        self.assertIsNotNone(response)
-        self.assertEqual(response, ("ligar", "lâmpada"))
+            self.assertIsNotNone(response)
+            self.assertEqual(response, item["command"])
 
 
 if __name__ == '__main__':
